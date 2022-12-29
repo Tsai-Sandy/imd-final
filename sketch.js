@@ -99,7 +99,7 @@ function mouseDragged() {
 function mouseReleased() {
   isDrag = false;
   if (nowDrag != null) {
-    books_a[i] = 0;
+    books_a[nowDrag] = 0;
   }
   nowDrag = null;
 }
