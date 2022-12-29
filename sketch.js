@@ -65,6 +65,8 @@ function hideInput() {
 
   if (isbn.length != 13) {
     alert("格式輸入錯誤，請輸入 13 碼 ISBN");
+  } else if (!checkData(isbn)) {
+    alert("查無書籍");
   } else {
     drawBook(isbn);
     getBookData(isbn)
@@ -80,14 +82,7 @@ function drawBook(isbn) {
   books_y.push(10);
 }
 
-// function get_data() {
-//   const title = input_title.value()
-//   console.log(title)
-//   const isbn = input_isbn.value()
-//   console.log(isbn)
-// }
-
-function getSize(){
+function getSize() {
   var body = document.body, html = document.documentElement;
 
   var width = Math.max(body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth);
@@ -106,8 +101,20 @@ function mouseDragged() {
     }
   }
 }
+
 async function getBookData(ISBN) {
   const response = await fetch(`http://127.0.0.1:8000/get_book/?ISBN=${ISBN}`)
   var data = await response.json()
   console.log(data)
+}
+
+function checkData(isbn) {
+  req = new XMLHttpRequest();
+  req.open('GET', `images/books/${isbn}.png`, false);
+  req.send();
+  console.log(req.status);
+  if (req.status === 200)
+    return true;
+  else
+    return false;
 }
