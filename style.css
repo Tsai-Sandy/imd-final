@@ -1,7 +1,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  background-color:honeydew;
+  background-color: rgb(254, 223, 225);
 }
 canvas {
   display: block;

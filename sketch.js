@@ -7,6 +7,10 @@ let books = [];
 let books_back = [];
 let books_x = [];
 let books_y = [];
+let books_a = [];
+let gravity = 0.5;
+let isDrag = false;
+let nowDrag = null;
 
 function preload() {
   bookshelf = loadImage("images/book_shelf.png");
@@ -25,8 +29,14 @@ function setup() {
 
 function draw() {
   background(254, 223, 225);
-  image(bookshelf, size[0] / 2, size[1] * 3 / 4, size[1]/2, size[1]/2);
+  image(bookshelf, size[0] / 2, size[1] * 3 / 4, size[1] / 2, size[1] / 2);
   for(let i = 0; i < books.length; i++) {
+    if (books_y[i] <= size[1] - 100){
+      if (!isDrag) {
+        books_a[i] += gravity;
+        books_y[i] += books_a[i];
+      }
+    }
     image(books[i], books_x[i], books_y[i], size[0]/10, size[0]/10); // 需再調整大小，等書籍的圖片確定後再說
   }
 }
@@ -60,7 +70,8 @@ function drawBook(isbn) {
   books_back.push(loadImage(`./images/books/${isbn}_back.png`))
   let x = random(0, size[0])
   books_x.push(x);
-  books_y.push(10);
+  books_y.push(-10);
+  books_a.push(0);
 }
 
 function getSize() {
@@ -76,11 +87,21 @@ function mouseDragged() {
   for (let i = 0; i < books.length; i++) {
     if ((mouseX > books_x[i] - 50) && (mouseX < books_x[i] + 50)) {
       if ((mouseY > books_y[i] - 50) && (mouseY < books_y[i] + 50)) {
+        isDrag = true;
+        nowDrag = i;
         books_x[i] = mouseX;
         books_y[i] = mouseY;
       }
     }
   }
+}
+
+function mouseReleased() {
+  isDrag = false;
+  if (nowDrag != null) {
+    books_a[i] = 0;
+  }
+  nowDrag = null;
 }
 
 async function getBookData(ISBN) {
