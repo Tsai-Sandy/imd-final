@@ -1,6 +1,23 @@
+let bookshelf;
+let button
+let size = get_size();
+
+function preload() {
+  bookshelf = loadImage("images/book_shelf.png");
+}
+
 function setup() {
-  let size = get_size()
-  createCanvas(size[1], size[0]);
+  createCanvas(size[0], size[1]);
+  button = createImg("images/add.png");
+  button.size(size[1]/8, size[1]/8);
+  button.position(size[0] / 2 - size[1] / 16, size[1] / 3 + size[1] / 16);
+  button.mousePressed(get_size);
+
+  imageMode(CENTER);
+  
+  
+  // button.mousePressed(changeBG);
+  // image(bg, width/2, height/2);
   // input_title = createInput();
   // input_title.position(20, 65);
   // button_title = createButton('submit');
@@ -14,26 +31,29 @@ function setup() {
   // button_isbn.mousePressed(get_data);
   // createElement('h2', 'Enter book isbn').position(20, 120);
   // textAlign(CENTER);
-  textSize(50);
+  // textSize(50);
 }
+
 
 function draw() {
   background(254, 223, 225);
-  fill(219, 77, 109);
-  circle(85,85,50);
+  image(bookshelf, size[0] / 2, size[1] * 3 / 4, size[1]/2, size[1]/2);
 }
+
+
 // function get_data() {
 //   const title = input_title.value()
 //   console.log(title)
 //   const isbn = input_isbn.value()
 //   console.log(isbn)
 // }
+
+
 function get_size(){
   var body = document.body, html = document.documentElement;
-  var height = Math.max( body.scrollHeight, body.offsetHeight, 
-                       html.clientHeight, html.scrollHeight, html.offsetHeight );
-  var width = Math.max( body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth );
-  console.log(height)
-  console.log(width)
-  return [height, width]
+
+  var width = Math.max(body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth);
+  var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+
+  return [width, height]
 }

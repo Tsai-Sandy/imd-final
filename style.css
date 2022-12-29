@@ -7,8 +7,6 @@ canvas {
   display: block;
   position: relative;
   margin: 0 auto;
-  width: 360px;
-  height: 240px;
 }
 .jumbotron {
   background-color: rgb(29, 27, 83);
