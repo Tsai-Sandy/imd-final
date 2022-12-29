@@ -67,6 +67,7 @@ function hideInput() {
     alert("格式輸入錯誤，請輸入 13 碼 ISBN");
   } else {
     drawBook(isbn);
+    getBookData(isbn)
   }
 }
 
@@ -104,4 +105,9 @@ function mouseDragged() {
       }
     }
   }
+}
+async function getBookData(ISBN) {
+  const response = await fetch(`http://127.0.0.1:8000/get_book/?ISBN=${ISBN}`)
+  var data = await response.json()
+  console.log(data)
 }
