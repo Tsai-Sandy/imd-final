@@ -34,7 +34,11 @@ function draw() {
 function hideAddButton() {
   add_button.position(-100, -100);
   var isbn = prompt("ISBN????");
-  hideInput(isbn)
+  if (isbn !== null) {
+    hideInput(isbn)
+  }else {
+    add_button.position(size[0] / 2 - size[1] / 16, size[1] / 3 + size[1] / 16);
+  }
 }
 
 function hideInput(isbn) {
