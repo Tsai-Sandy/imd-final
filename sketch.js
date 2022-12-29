@@ -1,6 +1,7 @@
 let bookshelf;
 let button
 let size = get_size();
+let add_mode = False
 
 function preload() {
   bookshelf = loadImage("images/book_shelf.png");
@@ -8,12 +9,13 @@ function preload() {
 
 function setup() {
   createCanvas(size[0], size[1]);
-  button = createImg("images/add.png");
+  button = createImg("images/add.png","LOADING....TSE");
   button.size(size[1]/8, size[1]/8);
   button.position(size[0] / 2 - size[1] / 16, size[1] / 3 + size[1] / 16);
-  button.mousePressed(get_size);
+  button.mousePressed(hideAddButton);
 
   imageMode(CENTER);
+
   
   
   // button.mousePressed(changeBG);
@@ -34,12 +36,24 @@ function setup() {
   // textSize(50);
 }
 
-
 function draw() {
   background(254, 223, 225);
   image(bookshelf, size[0] / 2, size[1] * 3 / 4, size[1]/2, size[1]/2);
 }
 
+function hideAddButton() {
+  button.position(-100, -100);
+  input_title = createInput();
+  input_title.position(20, 65);
+  button_title = createButton('submit');
+  button_title.position(input_title.x + input_title.width, 65);
+  button_title.mousePressed(hideInput);
+}
+function hideInput() {
+  button.position(size[0] / 2 - size[1] / 16, size[1] / 3 + size[1] / 16);
+  input_title.position(-100, -100);
+  button_title.position(-100, -100);
+}
 
 // function get_data() {
 //   const title = input_title.value()
