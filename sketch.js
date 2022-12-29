@@ -21,23 +21,6 @@ function setup() {
   add_button.size(size[1]/8, size[1]/8);
   add_button.position(size[0] / 2 - size[1] / 16, size[1] / 3 + size[1] / 16);
   add_button.mousePressed(hideAddButton);
-  
-  // button.mousePressed(changeBG);
-  // image(bg, width/2, height/2);
-  // input_title = createInput();
-  // input_title.position(20, 65);
-  // button_title = createButton('submit');
-  // button_title.position(input_title.x + input_title.width, 65);
-  // button_title.mousePressed(get_title);
-  // createElement('h2', 'Enter book title').position(20, 5);
-  // input_isbn = createInput();
-  // input_isbn.position(20, 160);
-  // button_isbn = createButton('submit');
-  // button_isbn.position(input_isbn.x + input_isbn.width, 160);
-  // button_isbn.mousePressed(get_data);
-  // createElement('h2', 'Enter book isbn').position(20, 120);
-  // textAlign(CENTER);
-  // textSize(50);
 }
 
 function draw() {
@@ -50,18 +33,12 @@ function draw() {
 
 function hideAddButton() {
   add_button.position(-100, -100);
-  input_isbn = createInput();
-  input_isbn.position(20, 65);
-  button_isbn = createButton('submit');
-  button_isbn.position(input_isbn.x + input_isbn.width, 65);
-  button_isbn.mousePressed(hideInput);
+  var isbn = prompt("ISBN????");
+  hideInput(isbn)
 }
 
-function hideInput() {
-  let isbn = input_isbn.value()
+function hideInput(isbn) {
   add_button.position(size[0] / 2 - size[1] / 16, size[1] / 3 + size[1] / 16);
-  input_isbn.position(-100, -100);
-  button_isbn.position(-100, -100);
 
   if (isbn.length != 13) {
     alert("格式輸入錯誤，請輸入 13 碼 ISBN");
