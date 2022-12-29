@@ -44,7 +44,7 @@ function draw() {
   background(254, 223, 225);
   image(bookshelf, size[0] / 2, size[1] * 3 / 4, size[1]/2, size[1]/2);
   for(let i = 0; i < books.length; i++) {
-    image(books[0], books_x[0], books_y[0], size[0]/10, size[0]/10); // 需再調整大小，等書籍的圖片確定後再說
+    image(books[i], books_x[i], books_y[i], size[0]/10, size[0]/10); // 需再調整大小，等書籍的圖片確定後再說
   }
 }
 
@@ -93,4 +93,15 @@ function getSize(){
   var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
 
   return [width, height]
+}
+
+function mouseDragged() {
+  for (let i = 0; i < books.length; i++) {
+    if ((mouseX > books_x[i] - 50) && (mouseX < books_x[i] + 50)) {
+      if ((mouseY > books_y[i] - 50) && (mouseY < books_y[i] + 50)) {
+        books_x[i] = mouseX;
+        books_y[i] = mouseY;
+      }
+    }
+  }
 }
