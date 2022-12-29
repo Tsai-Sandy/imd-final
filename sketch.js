@@ -73,8 +73,8 @@ function hideInput() {
 
 function drawBook(isbn) {
   console.log(`${isbn}.jpg`);
-  books.push(loadImage(`./images/books/${isbn}.jpg`, `${isbn}`));
-  books_back.push(loadImage(`./images/books/${isbn}_back.jpg`, `${isbn}`))
+  books.push(loadImage(`./images/books/${isbn}.png`));
+  books_back.push(loadImage(`./images/books/${isbn}_back.png`))
   let x = random(0, size[0])
   books_x.push(x);
   books_y.push(10);
