@@ -85,7 +85,7 @@ function mousePressed() {
 
 function hideAddButton() {
   add_button.position(-100, -100);
-  var isbn = prompt("ISBN????");
+  var isbn = prompt("請輸入 13 碼 ISBN:");
   if (isbn !== null) {
     hideInput(isbn);
   } else {
