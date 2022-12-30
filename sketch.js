@@ -174,7 +174,7 @@ function mouseReleased() {
 }
 
 async function getBookData(ISBN) {
-  const response = await fetch(`http://127.0.0.1:8000/get_book/?ISBN=${ISBN}`)
+  const response = await fetch(`http://140.136.153.172:8000/get_book/?ISBN=${ISBN}`)
   var data = await response.json()
   console.log(data)
   data_list.push(data)
