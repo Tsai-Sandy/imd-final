@@ -1,15 +1,22 @@
-let bookshelf, add_button;
 let size = getSize();
-let books = [];
-let books_back = [];
-let books_x = [];
-let books_y = [];
-let books_a = [];
+
+let bookshelf, add_button;
+let bookshelf_info = {x: size[0] / 2, y: size[1] * 3 / 4, w: size[1] / 2, h: size[1] / 2};
+let button_info = {
+  x: bookshelf_info.x - size[1] / 16,
+  y: size[1] / 3 + size[1] / 16,
+  w: size[1] / 8,
+  h: size[1] / 8
+};
+
+let book_w;
+let book_h;
+let books = {};
+let count = 0;
+
 let gravity = 0.5;
 let isDrag = false;
 let nowDrag = null;
-let inShelf = [];
-let putBook = [];
 
 function preload() {
   bookshelf = loadImage("images/book_shelf.png");
@@ -21,63 +28,27 @@ function setup() {
   imageMode(CENTER);
 
   add_button = createImg("images/add.png", "LOADING....");
-  add_button.size(size[1]/8, size[1]/8);
-  add_button.position(size[0] / 2 - size[1] / 16, size[1] / 3 + size[1] / 16);
-  add_button.mousePressed(hideAddButton);
+  add_button.size(button_info.w, button_info.h);
+  add_button.position(button_info.x, button_info.y);
+  add_button.mousePressed(inputAction);
 }
 
 function draw() {
   background(254, 223, 225);
-  image(bookshelf, size[0] / 2, size[1] * 3 / 4, size[1] / 2, size[1] / 2);
+  image(bookshelf, bookshelf_info.x, bookshelf_info.y, bookshelf_info.w, bookshelf_info.h);
   for(let i = 0; i < books.length; i++) {
-    if (books_y[i] <= size[1] - size[1] / 8){
-      if (!isDrag && !putBook[i]) {
-        books_a[i] += gravity;
-        books_y[i] += books_a[i];
+    if (books[i].y <= size[1] - size[1] / 8){
+      if (!isDrag && !books[i].putBook) {
+        books[i].d += gravity;
+        books[i].y += books[i].d;
       }
     }
-    if (!inShelf[i]){
-      image(books[i], books_x[i], books_y[i], size[0] / 11, size[0] / 11 * 1.05); // 需再調整大小，須確定圖片
+    if (!books[i].inShelf){
+      image(books[i].cover, books[i].x, books[i].y, size[0] / 11, size[0] / 11 * 1.05); // 需再調整大小，須確定圖片
     } else {
-      image(books_back[i], books_x[i], books_y[i], size[1] / 8 * 0.1, size[1] / 8);
+      image(books[i].back, books[i].x, books[i].y, size[1] / 8 * 0.1, size[1] / 8);
     } 
   }
-}
-
-function hideAddButton() {
-  add_button.position(-100, -100);
-  var isbn = prompt("ISBN????");
-  if (isbn !== null) {
-    hideInput(isbn);
-  } else {
-    add_button.position(size[0] / 2 - size[1] / 16, size[1] / 3 + size[1] / 16);
-  }
-}
-
-function hideInput(isbn) {
-  add_button.position(size[0] / 2 - size[1] / 16, size[1] / 3 + size[1] / 16);
-
-  if (isbn.length != 13) {
-    alert("格式輸入錯誤，請輸入 13 碼 ISBN");
-  } else if (!checkData(isbn)) {
-    alert("查無書籍");
-  } else {
-    drawBook(isbn);
-    getBookData(isbn);
-  }
-}
-
-function drawBook(isbn) {
-  x = random(1, size[0]);
-  y = -10;
-
-  books.push(loadImage(`./images/books/${isbn}.png`));
-  books_back.push(loadImage(`./images/books/${isbn}_back.png`))
-  books_x.push(x);
-  books_y.push(y);
-  books_a.push(0);
-  inShelf.push(false);
-  putBook.push(false);
 }
 
 function getSize() {
@@ -88,23 +59,48 @@ function getSize() {
   return [screen_width, screen_height]
 }
 
+function inputAction() {
+  var isbn = prompt("ISBN????");
+  if (isbn !== null) {
+    if (isbn.length != 13) {
+      alert("格式輸入錯誤，請輸入 13 碼 ISBN");
+    } else if (!checkData(isbn)) {
+      alert("查無書籍");
+    } else {
+      drawBook(isbn);
+      getBookData(isbn);
+    }
+  }
+}
+
+function drawBook(isbn) {
+  let x = random(1, size[0]);
+  let y = -10;
+  let d = 0;
+  let cover_photo = loadImage(`./images/books/${isbn}.png`);
+  let back_photo = loadImage(`./images/books/${isbn}_back.png`);
+  
+  books[count] = {cover: cover_photo, back: back_photo, x: x, y: y, d: d, inShelf: false, putBook: false};
+  count++;
+}
+
 function mouseDragged() {
   for (let i = 0; i < books.length; i++) {
-    if ((mouseX > books_x[i] - size[0] / 22) && (mouseX < books_x[i] + size[0] / 22)) {
-      if ((mouseY > books_y[i] - size[0] / 22) && (mouseY < books_y[i] + size[0] / 22)) {
+    if ((mouseX > books[i].x - size[0] / 22) && (mouseX < books[i].x + size[0] / 22)) {
+      if ((mouseY > books[i].y - size[0] / 22) && (mouseY < books[i].y + size[0] / 22)) {
         if ((mouseX > size[0] / 2  - size[1] / 4) && (mouseX < size[0] / 2  + size[1] / 4)){
           if ((mouseY > size[1] * 3 / 4  - size[1] / 4) && (mouseY < size[1] * 3 / 4  + size[1] / 4)) {
-            inShelf[i] = true;
+            books[i].inShelf = true;
           } else {
-            inShelf[i] = false;
+            books[i].inShelf = false;
           }
         } else {
-          inShelf[i] = false;
+          books[i].inShelf = false;
         }
         isDrag = true;
         nowDrag = i;
-        books_x[i] = mouseX;
-        books_y[i] = mouseY;
+        books[i].x = mouseX;
+        books[i].y = mouseY;
       }
     }
   }
@@ -112,18 +108,17 @@ function mouseDragged() {
 
 function mouseReleased() {
   if (nowDrag != null) {
-    books_a[nowDrag] = 0;
+    books[nowDrag].d = 0;
   } 
   if ((mouseX > size[0] / 2  - size[1] / 4) && (mouseX < size[0] / 2  + size[1] / 4)) {
     if ((mouseY > size[1] * 3 / 4  - size[1] / 4) && (mouseY < size[1] * 3 / 4  + size[1] / 4)) {
-      putBook[nowDrag] = true;
+      books[nowDrag].putBook = true;
     } else {
-      putBook[nowDrag] = false;
+      books[nowDrag].putBook = false;
     }
   } else {
-    putBook[nowDrag] = false;
+    books[nowDrag].putBook = false;
   }
-  
   isDrag = false;
   nowDrag = null;
 }
