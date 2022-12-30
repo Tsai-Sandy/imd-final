@@ -31,7 +31,7 @@ function setup() {
 }
 
 function draw() {
-  background(254, 223, 225);
+  background(254, 249, 244);
   image(bookshelf, size[0] / 2, size[1] * 3 / 4, size[1] / 2, size[1] / 2);
   for(let i = 0; i < books.length; i++) {
     if (books_y[i] <= size[1] - size[1] / 8){
@@ -42,7 +42,7 @@ function draw() {
       }
     }
     if (!inShelf[i]){
-      image(books[i], books_x[i], books_y[i], size[0] / 11, size[0] / 11 * 1.05); // 需再調整大小，須確定圖片
+      image(books[i], books_x[i], books_y[i], size[1] / 4.5 *0.75, size[1] / 4.5); // 需再調整大小，須確定圖片
     } else {
       image(books_back[i], books_x[i], books_y[i], size[1] / 6 * 0.15, size[1] / 6);
     }
@@ -67,8 +67,8 @@ function display_data(isbn) {
 
 function mousePressed() {
   for (let i = 0; i < books.length; i++) {
-    if ((mouseX > books_x[i] - size[0] / 22) && (mouseX < books_x[i] + size[0] / 22)) {
-      if ((mouseY > books_y[i] - size[0] / 22) && (mouseY < books_y[i] + size[0] / 22)) {
+    if ((mouseX > books_x[i] - 50) && (mouseX < books_x[i] + 50)) {
+      if ((mouseY > books_y[i] - 50) && (mouseY < books_y[i] + 50)) {
         if ((mouseX > size[0] / 2  - size[1] / 4) && (mouseX < size[0] / 2  + size[1] / 4)){
           if ((mouseY > size[1] * 3 / 4  - size[1] / 4) && (mouseY < size[1] * 3 / 4  + size[1] / 4)) {
             for(let z = 0; z < isClick_list.length; z++) {
