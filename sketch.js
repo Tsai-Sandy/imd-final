@@ -56,7 +56,10 @@ function display_data(isbn) {
   for(let i = 0; i < data_list.length; i++) {
     if (data_list[i].ISBN === isbn && isClick_list[i]) {
       textSize(32);
-      text(data_list[i].Title, 10, 30);
+      text(data_list[i].Title, 10, 40);
+      text(`作者：${data_list[i].Creator}`, 10, 80);
+      text(`出版社：${data_list[i].Publisher}`, 10, 120);
+      text(`ISBN：${data_list[i].ISBN}`, 10, 160);
       fill(0, 102, 153);
     }
   }
