@@ -9,8 +9,10 @@ let button_info = {
   h: size[1] / 8
 };
 
-let book_w;
-let book_h;
+// let book_w = size[0] / 6;
+// let book_h = size[1] / 6 * 1.05;
+// let back_w = size[1] / 8 * 0.1;
+// let back_h = size[1] / 8;
 let books = {};
 let count = 0;
 
@@ -36,7 +38,7 @@ function setup() {
 function draw() {
   background(254, 223, 225);
   image(bookshelf, bookshelf_info.x, bookshelf_info.y, bookshelf_info.w, bookshelf_info.h);
-  for(let i = 0; i < books.length; i++) {
+  for(let i = 0; i < count; i++) {
     if (books[i].y <= size[1] - size[1] / 8){
       if (!isDrag && !books[i].putBook) {
         books[i].d += gravity;
@@ -82,6 +84,7 @@ function drawBook(isbn) {
   
   books[count] = {cover: cover_photo, back: back_photo, x: x, y: y, d: d, inShelf: false, putBook: false};
   count++;
+  console.log(books)
 }
 
 function mouseDragged() {
